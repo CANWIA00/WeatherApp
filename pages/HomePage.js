@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import {fetchLocations, fetchWeatherData} from "../api/Weather";
+import {fetchLocations, fetchWeatherData, Images} from "../api/Weather";
 
 export default function HomePage() {
     const [searchText, setSearchText] = useState('');
@@ -24,38 +24,46 @@ export default function HomePage() {
     const handleSearchTextChange = (text) => {
         setSearchText(text);
 
-        // Show dropdown only when searchText is not empty
+
         if (text.trim() === '') {
-            setIsDropdownOpen(false); // Close dropdown if input is empty
+            setIsDropdownOpen(false);
         } else {
-            // Fetch locations when there's input
+
             fetchLocations({ cityName: text })
                 .then((data) => {
                     if (data && data.length > 0) {
                         setLocations(data);
-                        setIsDropdownOpen(true); // Open dropdown if data is found
+                        setIsDropdownOpen(true);
                     } else {
-                        setLocations([]); // Clear locations array when no data is found
-                        setIsDropdownOpen(false); // Hide dropdown when no results
+                        setLocations([]);
+                        setIsDropdownOpen(false);
                     }
                 })
                 .catch((err) => {
                     console.error('Error fetching locations:', err);
-                    setIsDropdownOpen(false); // Close dropdown if there's an error
+                    setIsDropdownOpen(false);
                 });
         }
     };
+
+    const getImage = (condition) => {
+        if (Images[condition]) {
+            return Images[condition];
+        }
+        return Images['other'];
+    };
+
 
 
 
     const handleLocationSelect = (location) => {
         console.log('Selected location:', location);
 
-        // Fetch weather data for the selected location
-        fetchWeatherData({ cityName: location.name, days: 1 })
+
+        fetchWeatherData({ cityName: location.name, days: 7 })
             .then((data) => {
                 if (data) {
-                    setWeatherData(data); // Store the weather data
+                    setWeatherData(data);
                     console.log('Weather data:', data);
                 } else {
                     console.warn('Weather data not found!');
@@ -63,8 +71,8 @@ export default function HomePage() {
             })
             .catch((err) => console.error('Error fetching weather data:', err));
 
-        setSearchText(location.name); // Set the selected location name in the input
-        setIsDropdownOpen(false); // Close the dropdown
+        setSearchText(location.name);
+        setIsDropdownOpen(false);
     };
 
 
@@ -106,8 +114,8 @@ export default function HomePage() {
                     {/* Dropdown */}
                     {isDropdownOpen && locations.length > 0 && (
                         <FlatList
-                            data={locations} // Pass the locations array directly
-                            keyExtractor={(item) => item.id.toString()} // Use a unique key, such as the location's id
+                            data={locations}
+                            keyExtractor={(item) => item.id.toString()}
                             style={styles.dropDown}
                             renderItem={({ item }) => (
                                 <TouchableOpacity
@@ -140,7 +148,7 @@ export default function HomePage() {
                     <View style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
                         {weatherData?.current && (
                             <Image
-                                source={require('../assets/img/cloudy.png')} // Replace with dynamic images based on weather condition
+                                source={getImage(weatherData?.current?.condition?.text)}
                                 style={{
                                     width: 320,
                                     height: 300,
@@ -156,7 +164,8 @@ export default function HomePage() {
                                         color: 'white',
                                         fontSize: 62,
                                         fontWeight: 'bold',
-                                        marginBottom: 25
+                                        marginBottom: 25,
+                                        textAlign: 'center',
                                     }}
                                 >
                                     {weatherData?.current?.temp_c}°C
@@ -168,14 +177,14 @@ export default function HomePage() {
                         )}
                     </View>
                 </View>
-                {/* Other Stats (Wind, Humidity, Sunrise Time) */}
+
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
 
                     {/* Wind Speed */}
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
                         <Image source={require('../assets/img/wind.png')} style={styles.beltImage} />
                         <Text style={styles.beltText}>
-                            {weatherData?.current?.wind_kph} km/h {/* Wind speed in km/h */}
+                            {weatherData?.current?.wind_kph} km/h
                         </Text>
                     </View>
 
@@ -183,7 +192,7 @@ export default function HomePage() {
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
                         <Image source={require('../assets/img/drop.png')} style={[styles.beltImage, { tintColor: 'gray' }]} />
                         <Text style={styles.beltText}>
-                            {weatherData?.current?.humidity}% {/* Humidity percentage */}
+                            {weatherData?.current?.humidity}%
                         </Text>
                     </View>
 
@@ -191,7 +200,7 @@ export default function HomePage() {
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginHorizontal: 20 }}>
                         <Image source={require('../assets/img/sunrise.png')} style={[styles.beltImage, { tintColor: 'gray' }]} />
                         <Text style={styles.beltText}>
-                            {new Date(weatherData?.astronomy?.astro?.sunrise).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} {/* Sunrise time */}
+                            {weatherData?.forecast?.forecastday[0]?.astro?.sunrise || 'N/A'}
                         </Text>
                     </View>
                 </View>
@@ -220,16 +229,16 @@ export default function HomePage() {
                                     paddingHorizontal: 10,
                                 }}
                             >
-                                {/* Dynamically set the weather icon */}
+
                                 <Image
                                     source={{ uri: `https:${day.day.condition.icon}` }}
                                     style={styles.beltImage}
                                 />
-                                {/* Day of the week */}
+
                                 <Text style={styles.beltText}>
                                     {new Date(day.date).toLocaleString('en-us', { weekday: 'long' })}
                                 </Text>
-                                {/* Temperature */}
+
                                 <Text style={styles.beltText}>
                                     {day.day.avgtemp_c}°C
                                 </Text>
@@ -284,8 +293,8 @@ const styles = StyleSheet.create({
         fontSize: 14,
     },
     dropDown: {
-        maxHeight: 200, // Limit dropdown height to avoid overflow
-        backgroundColor: '#2a2a2a', // Darker background for better contrast
+        maxHeight: 200,
+        backgroundColor: '#2a2a2a',
         borderRadius: 10,
         marginTop: 8,
         paddingVertical: 8,
@@ -294,7 +303,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.3,
         shadowRadius: 5,
         elevation: 5,
-        zIndex: 999, // Ensure it appears above other components
+        zIndex: 999,
     },
     dropDownItem: {
         paddingVertical: 12,
@@ -307,9 +316,9 @@ const styles = StyleSheet.create({
         color: 'white',
     },
     beltImage:{
-        width: 50, // Set the width of the image
-        height: 50, // Set the height of the image
-        resizeMode: 'contain', // Adjust image to fit within the specified width/height
+        width: 44,
+        height: 44,
+        resizeMode: 'contain',
     },
     beltText:{
         marginLeft: 6,
