@@ -20,6 +20,12 @@ A mobile weather app built with React Native that provides users with current we
 - **Animated**: For animated charts and transitions.
 - **Styled Components / React Native Stylesheets**: To style the app.
 
+ ### Demo Video
+
+Check out the demo video below:
+
+![Demo Video](video-demo.mp4)
+
 ## Installation
 
 1. Clone the repository:
