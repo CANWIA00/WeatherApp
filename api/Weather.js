@@ -21,8 +21,8 @@ export const Images = {
     'Moderate or heavy rain with thunder': require('../assets/img/cloudyRain.png'),
     'other': require('../assets/img/cloudyRain.png'),
     'Snow': require('../assets/img/snowy.png'),
-
-}
+    'Mist': require('../assets/img/foggy.png'),
+};
 
 const apiCall = async (endpoint) => {
     const options = {
@@ -40,7 +40,14 @@ const apiCall = async (endpoint) => {
 };
 
 export const fetchWeatherData = (params) => {
-    let forecastUrl = forecastEndpoint(params);
+    let forecastUrl;
+    if (params.cityName) {
+
+        forecastUrl = forecastEndpoint({ cityName: params.cityName, days: params.days });
+    } else if (params.latitude && params.longitude) {
+
+        forecastUrl = `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${params.latitude},${params.longitude}&days=${params.days}&aqi=no&alerts=no`;
+    }
     return apiCall(forecastUrl);
 };
 
