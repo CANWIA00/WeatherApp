@@ -24,7 +24,7 @@ A mobile weather app built with React Native that provides users with current we
 
 Check out the demo video below:
 
-[![Watch the demo video](https://via.placeholder.com/560x315.png?text=Click+to+Watch+Video)](./WeatherApp%20PreView.mp4)
+[![Watch the demo video](https://img.youtube.com/vi/YOUR_VIDEO_ID/0.jpg)](https://www.youtube.com/watch?v=YOUR_VIDEO_ID)
 
 
 ## Installation
