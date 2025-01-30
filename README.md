@@ -17,7 +17,6 @@ A mobile weather app built with React Native that provides users with current we
 - **Expo**: To run and develop the app using the Expo ecosystem.
 - **WeatherAPI**: Provides weather data, including forecasts, conditions, and locations.
 - **Axios**: For making HTTP requests to fetch weather data.
-- **React Navigation**: To manage screen transitions (if needed).
 - **Animated**: For animated charts and transitions.
 - **Styled Components / React Native Stylesheets**: To style the app.
 
