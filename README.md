@@ -1,4 +1,4 @@
-# Weather App
+# Weather App 🌡️ ☁️ ❄️ ⛅ 🌫️ 🌨️ 🌨️ 🌧️ 🌤️ ☀️
 
 A mobile weather app built with React Native that provides users with current weather data, forecasts, and location-based information. The app features a sleek interface for searching cities, viewing weather conditions, and exploring detailed temperature graphs for multiple days.
 
