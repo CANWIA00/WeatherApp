@@ -1,8 +1,8 @@
-# Weather App 🌡️ ☁️ ❄️ ⛅ 🌫️ 🌨️ 🌨️ 🌧️ 🌤️ ☀️
+# Weather App 🌡️ ☁️ ❄️ ⛅ 🌫️ 🌨️ 🌧️ 🌤️ ☀️
 
 A mobile weather app built with React Native that provides users with current weather data, forecasts, and location-based information. The app features a sleek interface for searching cities, viewing weather conditions, and exploring detailed temperature graphs for multiple days.
 
-## Features
+## 💡 Features 💡
 
 - **Location-Based Weather**: Fetch weather data based on your current location.
 - **Search City**: Search for weather information by city name.
@@ -11,7 +11,7 @@ A mobile weather app built with React Native that provides users with current we
 - **Hourly Graphs**: Animated temperature graphs for specific hours of the day.
 - **Interactive Search**: Dynamic location search with dropdown suggestions.
 
-## Tech Stack
+## ⚙️🛠️ Tech Stack 🛠️⚙️
 
 - **React Native**: For building cross-platform mobile apps.
 - **Expo**: To run and develop the app using the Expo ecosystem.
